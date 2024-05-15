@@ -189,10 +189,6 @@ for i in range(len(membrane_platforms)):
 	plot_gp_data(temperatures,data_dictionary,len(excel_file_names),membrane_type)
 
 # Creates GP plots with average+std.dev for lipid type
-#curve_fit_point_to_exclude = int ( ( curve_fit_exclude / 2 ) * len(temperatures) )
-#print (curve_fit_point_to_exclude)
-#curve_fit_start = curve_fit_point_to_exclude
-#curve_fit_end = len(temperatures) - curve_fit_point_to_exclude
 for i in range(len(membrane_platforms)):
 	popt,pconv = boltzmann_curve_fit(temperatures,averages_dictionary[membrane_platforms[i]],expected_melting_temp)
 	x_fit = np.linspace(20,70,560)
@@ -214,13 +210,6 @@ print('Calculating first derivative of generalized polarization')
 for i in range(len(membrane_platforms)):
 	temp_deriv,gp_deriv = calc_first_derivative_central(temperatures,averages_dictionary[membrane_platforms[i]])
 	gp_deriv = -1.0 * np.float_(gp_deriv)
-	#print(temp_deriv,gp_deriv)
-	# Generating curve of best fit
-	#x = np.linspace(5,59,540)
-	#dist_data = np.stack([temp_deriv,gp_deriv],axis=-1)
-	#print(dist_data)
-	#params = st.lognorm.fit(dist_data)
-	#print(*params)
 	# Gets peak of derivative plot
 	max_index = np.argmax(gp_deriv)
 	t_melt = temp_deriv[max_index]
@@ -236,4 +225,3 @@ plt.savefig(figure_name,format=filetype)
 plt.show()
 plt.clf()
 
-# Fits averages to Boltzmann sigmoid for analysis of Tm, cooperativity, and deltaH
